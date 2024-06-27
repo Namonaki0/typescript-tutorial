@@ -1,5 +1,3 @@
-console.log('test');
-
 // type annotations
 let awesomeName: string = 'someAwesomeName';
 awesomeName = 'awesomeName';
@@ -21,7 +19,6 @@ let tax: number | string = 10;
 
 tax = 10;
 tax = 'some string';
-
 
 let requestStatus: 'pending' | 'success' | 'error' = 'pending';
 requestStatus = 'success';
@@ -152,3 +149,83 @@ const newStudent = {
 }
 
 createStudent(newStudent);
+
+
+// Type alias
+type User = { id: number; name: string; isActive: boolean };
+
+const john:User = {
+    id: 1,
+    name: 'john',
+    isActive: true,
+  };
+  const susan:User = {
+    id: 1,
+    name: 'susan',
+    isActive: false,
+  };
+  
+  function createUser(user: User):User {
+    console.log(`Hello there ${user.name.toUpperCase()} !!!`);
+  
+    return user;
+  }
+
+
+  type Theme = 'light' | 'dark';
+
+  let theme:Theme;
+  theme = 'light';
+  theme = 'dark';
+
+
+function setTheme(t:Theme) {
+    theme = t;
+}
+
+setTheme('dark');
+
+
+// intersection type
+type Book = { id:number; name:string; price:number};
+type DiscountBook = Book & {discount: number};
+
+const book1:Book = {
+    id: 1,
+    name: 'book one',
+    price: 22
+}
+
+const book2:Book = {
+    id: 2,
+    name: "book two",
+    price: 20
+}
+
+const book3:Book & {discount:number} = {
+    id: 3,
+    name: "discounted book one",
+    price: 10,
+    discount: 0.15
+}
+
+const book4:DiscountBook = {
+    id: 4,
+    name: "discount book two",
+    price: 30,
+    discount: 0.20
+}
+
+console.log(book1, book2, book3, book4);
+
+
+// computed properties
+const propName = 'age';
+
+type SetProp = {
+    [propName]: number
+}
+
+const tiger:SetProp = {[propName]: 5};
+
+console.log(tiger);
