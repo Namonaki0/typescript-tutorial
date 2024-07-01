@@ -32,6 +32,7 @@ console.log(processData(12, {reverse: true}));
 console.log(processData('sentence', {reverse: false}));
 console.log(processData('sentence', {reverse: true}));
 
+
 ///////////////////
 
 type Employee = {id:number; name:string; department:string};
@@ -55,3 +56,27 @@ const jeff:Manager = {id: 212, name: 'Jeff', employees:[alice, morgan]};
 printStaffDetails(morgan);
 printStaffDetails(alice);
 printStaffDetails(jeff);
+
+
+///////////////////
+
+interface Computer {
+    readonly id: number;
+    brand: string;
+    ram: number;
+    storage?: number;
+    upgradeRam(storage: number): string;
+}
+
+const computer: Computer = {
+    id: 1234,
+    brand: 'Apple',
+    ram: 200,
+    upgradeRam(storage: number):string {
+        return `RAM updates to ${storage}GB`
+    }
+}
+
+const ramUpdate = computer.upgradeRam(300);
+console.log(ramUpdate);
+console.log(computer);

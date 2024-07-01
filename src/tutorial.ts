@@ -20,6 +20,7 @@ let tax: number | string = 10;
 tax = 10;
 tax = 'some string';
 
+
 let requestStatus: 'pending' | 'success' | 'error' = 'pending';
 requestStatus = 'success';
 requestStatus = 'error';
@@ -152,6 +153,7 @@ createStudent(newStudent);
 
 
 // Type alias
+
 type User = { id: number; name: string; isActive: boolean };
 
 const john:User = {
@@ -185,7 +187,6 @@ function setTheme(t:Theme) {
 
 setTheme('dark');
 
-
 // intersection type
 type Book = { id:number; name:string; price:number};
 type DiscountBook = Book & {discount: number};
@@ -218,7 +219,6 @@ const book4:DiscountBook = {
 
 console.log(book1, book2, book3, book4);
 
-
 // computed properties
 const propName = 'age';
 
@@ -229,3 +229,32 @@ type SetProp = {
 const tiger:SetProp = {[propName]: 5};
 
 console.log(tiger);
+
+
+// interface methods
+interface BookRef {
+    readonly isbn: number;
+    title: string;
+    author: string;
+    genre?: string;
+    printAuthor(): void;
+    printTitle(message: string): string;
+}
+
+const book: BookRef = {
+    isbn: 1234,
+    title: 'deep work',
+    author: 'Cal Newport',
+    genre: 'self-help',
+    printAuthor() {
+        console.log(this.author);
+    },
+    printTitle(message) {
+        return `${this.title} ${message}`;
+    }
+}
+
+book.printAuthor();
+
+const result = book.printTitle('is an awesome book');
+console.log(result);
