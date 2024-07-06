@@ -65,14 +65,14 @@ interface Computer {
     brand: string;
     ram: number;
     storage?: number;
-    upgradeRam(storage: number): string;
+    upgradeRam(storage: number): number;
 }
 
 const computer: Computer = {
     id: 1234,
     brand: 'Apple',
     ram: 200,
-    upgradeRam(storage: number):string {
+    upgradeRam(storage) {
         return `RAM updates to ${storage}GB`
     }
 }
@@ -80,3 +80,55 @@ const computer: Computer = {
 const ramUpdate = computer.upgradeRam(300);
 console.log(ramUpdate);
 console.log(computer);
+
+
+// ///////////////////
+
+
+function getEmployee() {
+    const random =  Math.random();
+    if (random < 0.33) {
+        return {
+            name: "John"
+        }
+    } else if (random < 0.66) {
+        return {
+            name: "Sarah",
+            dogName: "Rex"
+        }
+    } else {
+        return {
+            name: "Bob",
+            managePeople() {
+                console.log('Managing people...');
+            },
+            delegateTasks() {
+                console.log('Delegating tasks...');
+            }
+        }
+    }
+}
+
+interface Person {
+    name: string
+}
+
+interface DogOwner extends Person {
+    dogName: string
+}
+
+interface Managers extends Person {
+ managePeople(): void;
+ delegateTasks(): void;
+}
+
+const employee: Person | DogOwner | Managers = getEmployee();
+
+
+function isManager(obj: Person | DogOwner | Managers): obj is Managers {
+    return 'managePeople' in obj;
+}
+
+if (isManager(employee)) {
+    employee.managePeople();
+}

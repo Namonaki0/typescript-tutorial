@@ -258,3 +258,48 @@ book.printAuthor();
 
 const result = book.printTitle('is an awesome book');
 console.log(result);
+
+
+
+// tuples
+let person:[string, number] = ['john', 25];
+
+let date: readonly [number, number, number] = [12, 26, 2024];
+
+function getPerson(): [string, number] {
+    return ['jeff', 30];
+}
+
+const getRandomPerson = getPerson();
+
+console.log(getRandomPerson[0]);
+console.log(getRandomPerson[1]);
+
+let marge:[string, number?] = ['marge'];
+
+
+
+// enums
+enum ServerResponseStatus {
+    Success = 200,
+    Error = 500,
+}
+
+console.log(ServerResponseStatus);
+
+interface ServerResponse {
+    result: ServerResponseStatus;
+    data: string[];
+    anotherKey: number;
+}
+
+function getServerResponse():ServerResponse {
+    return {
+        result: ServerResponseStatus.Success,
+        data: ['first item', 'second item', 'third item'],
+        anotherKey: 20,
+    }
+}
+
+const response:ServerResponse = getServerResponse();
+console.log(response);
