@@ -132,3 +132,27 @@ function isManager(obj: Person | DogOwner | Managers): obj is Managers {
 if (isManager(employee)) {
     employee.managePeople();
 }
+
+
+// ///////////////////
+
+
+enum UserRole {
+    Admin,
+    Manager,
+    Employee
+}
+
+type Users = {
+    id: number;
+    name: string;
+    role: UserRole;
+    contact: [string, string];
+}
+
+function createUsers(users: Users):Users {
+    return users;
+}
+
+const answer:Users = createUsers({id: 121, name: 'John', role: UserRole.Admin, contact: ["test@email.com", "09009887887"]});
+console.log(answer);

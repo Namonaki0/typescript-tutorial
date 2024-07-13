@@ -303,3 +303,39 @@ function getServerResponse():ServerResponse {
 
 const response:ServerResponse = getServerResponse();
 console.log(response);
+
+
+// type assertion
+let someValue: any = 'string example';
+let stringLength: number = (someValue as string).length;
+
+type Bird = {
+    name: string;
+}
+
+let birdString = '{"name": "Eagle"}';
+let dogString = '{"breed": "Poodle"}';
+
+let birdObject = JSON.parse(birdString);
+let dogObject = JSON.parse(dogString);
+
+let bird = birdObject as Bird;
+
+console.log(bird.name);
+
+enum Status {
+    pending = 'pending',
+    Declined = 'declined'
+}
+
+type User$ = {
+    name: string;
+    status: Status;
+}
+
+// save Status.Pending in the DB as a string
+// retrieve string from the DB
+
+let statusValue = 'pending';
+
+const user: User$ = {name: 'john', status: statusValue as Status};
