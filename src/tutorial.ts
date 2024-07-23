@@ -339,3 +339,76 @@ type User$ = {
 let statusValue = 'pending';
 
 const user: User$ = {name: 'john', status: statusValue as Status};
+
+
+// unknown
+let unknownValue: unknown;
+
+unknownValue = 'some string';
+unknownValue = 1.2345;
+unknownValue = [1, 2, 3];
+
+if (typeof unknownValue === 'number') {
+    unknownValue.toFixed(2);
+}
+
+function runSomeCode() {
+    const random = Math.random();
+    if (random < 0.5) {
+        throw new Error('There was an error...');
+    } else {
+        throw 'There was a different error...';
+    }
+}
+
+try {
+    runSomeCode();
+} catch (error) {
+    if (error instanceof Error) {
+        console.log(error.message);
+    } else {
+        console.log(error);
+    }
+}
+
+
+// never
+type Theme = 'light' | 'dark';
+
+function checkTheme(theme: Theme):void {
+    if (theme === 'light') {
+        console.log('light theme');
+        return;
+    }
+    if (theme === 'dark') {
+        console.log('dark theme');
+        return;
+    }
+    theme; // type of never because all the options have been handled
+}
+
+enum Color {
+    Blue,
+    Red,
+    Green
+}
+
+function getColorName(color:Color) {
+ switch(color) {
+    case Color.Blue:
+        return 'blue color';
+    case Color.Red:
+        return 'red color';
+    case Color.Green:
+        return 'green color';
+    default:
+        // at build time
+        let unexpectedColor: never = color;
+        // at runtime
+        throw new Error(`Unexpected color value: ${color}`);
+ }
+}
+
+console.log(getColorName(Color.Blue));
+console.log(getColorName(Color.Red));
+console.log(getColorName(Color.Green));
