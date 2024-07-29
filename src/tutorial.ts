@@ -412,3 +412,18 @@ function getColorName(color:Color) {
 console.log(getColorName(Color.Blue));
 console.log(getColorName(Color.Red));
 console.log(getColorName(Color.Green));
+
+
+import newStudentName, { sayHello, personName, type Student } from "./actions";
+import { example } from "./example";    
+
+sayHello('testName');
+console.log(newStudentName);
+console.log(personName);
+
+const anotherStudent: Student = {
+    name: 'Jeff',
+    age: 44
+}
+
+console.log(anotherStudent);
