@@ -429,7 +429,6 @@ const anotherStudent: Student = {
 console.log(anotherStudent);
 
 
-
 // typeof
 type ValueType = string | number | boolean;
 
@@ -452,3 +451,43 @@ function checkValue(value: ValueType):void {
 }
 
 checkValue(value)
+
+
+// equality and 'in'
+type Dog = { type: 'dog'; name: string; bark: () => void };
+type Cat = { type: 'cat'; name: string; meow: () => void };
+type Animal = Dog | Cat;
+
+
+function makeSound(animal:Animal) {
+    if (animal.type === 'dog') {
+        animal.bark();
+    } else {
+        animal.meow();
+    }
+}
+
+function makeSounds(animal: Animal) {
+    if ('bark' in animal) {
+        animal.bark();
+    } else {
+        animal.meow();
+    }
+}
+
+
+
+// Truthy and Falsy
+function printLength(str:string | null | undefined) {
+    if (str) {
+        console.log(str.length)
+    } else {
+        console.log('no string provided')
+    }
+}
+
+printLength('Hello');
+printLength('');
+printLength(null);
+printLength();
+printLength(undefined);
