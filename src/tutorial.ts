@@ -491,3 +491,63 @@ printLength('');
 printLength(null);
 printLength();
 printLength(undefined);
+
+
+
+// instanceof
+try {
+    throw 'error';
+    // throw new Error('This is an error');
+} catch (error) {
+    if (error instanceof Error) {
+        console.log(`Caught an error: ${error.message}`);
+    } else {
+        console.log('unknown error...');
+    }
+}
+
+function checkInput(input: Date | string): string {
+    if (input instanceof Date) {
+        return input.getFullYear().toString();
+    }
+    return input;
+}
+
+const year = checkInput(new Date());
+const randoms = checkInput('2020-05-05');
+
+console.log(year);
+console.log(randoms);
+
+
+
+// type predicate
+type Student = {
+    name: string;
+    study: () => void;
+  };
+  
+  type Users = {
+    name: string;
+    login: () => void;
+  };
+  
+  type Person = Student | Users;
+  
+  const randomPerson = (): Person => {
+    return Math.random() > 0.5
+      ? { name: 'john', study: () => console.log('Studying') }
+      : { name: 'mary', login: () => console.log('Logging in') };
+  };
+  
+  const persons = randomPerson();
+
+  function isStudent(persons: Person): persons is Student {
+    return (persons as Student).study !== undefined; 
+  }
+
+  if (isStudent(persons)) {
+    persons.study();
+  } else {
+    persons.login();
+  }
