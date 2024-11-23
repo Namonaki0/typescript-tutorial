@@ -655,16 +655,28 @@
 
 
 // fetch data
+import { z } from 'zod';
+
 const url = 'https://www.course-api.com/react-tours-project'
 
+// checked at runtime
+const tourSchema = z.object({
+    id: z.string(),
+    name: z.string(),
+    info: z.string(),
+    image: z.string(),
+    price: z.string()
+})
 
-type Tour = {
-    id: number;
-    name: string;
-    info: string;
-    image: string;
-    price: number;
-}
+type Tour = z.infer<typeof tourSchema>;
+
+// type Tour = {
+//     id: number;
+//     name: string;
+//     info: string;
+//     image: string;
+//     price: number;
+// }
 
 async function fetchData(url:string):Promise<Tour[]> {
     try {
@@ -674,10 +686,16 @@ async function fetchData(url:string):Promise<Tour[]> {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data:Tour[] = await response.json();
+        const rawData:Tour[] = await response.json();
 
-        console.log(data);
-        return data;
+        const result = tourSchema.array().safeParse(rawData);
+        console.log(result);
+
+        if (!result.success) {
+            throw new Error(`Invalid data: ${result.error}`);
+        }
+
+        return result.data;
 
     } catch (error) {
         const errorMsg = error instanceof Error ? error.message : 'An error occurred';
@@ -693,3 +711,68 @@ tours.map(
     }
 )
 
+// Classes
+class Book {
+    // readonly modifier
+    readonly title: string;
+    author: string;
+
+    // default property
+    // checkedOut: boolean = false; <--- valid option
+    checkedOut = false; // <--- also works
+
+    constructor(title:string, author:string) {
+        this.title = title;
+        this.author = author;
+    }
+}
+
+const deepWork = new Book('Deep Work', 'Cal Newport');
+console.log(deepWork.checkedOut); // false
+deepWork.title = "something else"; // error as title is readonly  
+console.log(deepWork.title); // Deep Work
+console.log(deepWork); // { title: 'Deep Work', author: 'Cal Newport' }
+
+
+// public and private modifiers
+class Books {
+    public readonly title: string;
+    public author: string;
+    checkedOut: boolean = false;
+
+    constructor(title:string, author:string) {
+        this.title = title;
+        this.author = author;
+    }
+
+    public checkout() {
+        this.checkedOut = this.toggleCheckedOut();
+    }
+
+    public isCheckedOut() {
+        return this.checkedOut;
+    }
+
+    public toggleCheckedOut() {
+        return !this.checkedOut;
+    }
+}
+
+const someBook = new Books('Some Book', 'Some Author');
+someBook.checkout();
+someBook.checkout();
+console.log(someBook.isCheckedOut()); // false
+
+
+// constructor shortcut
+class Library {
+    private checkedOut: boolean = false;
+    constructor(readonly title:string, public author:string, private someValue:number) {
+    }
+    getSomeValue() {
+        return this.someValue;
+    }
+}
+
+const libraryBook = new Library('Some Book', 'Some Author', 200);
+console.log(libraryBook.getSomeValue()); // 200
