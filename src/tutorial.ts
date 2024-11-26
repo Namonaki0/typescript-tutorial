@@ -414,6 +414,43 @@
 // console.log(getColorName(Color.Green));
 
 
+// type guards - discriminated unions
+
+type IncrementAction = {
+    type: 'increment';
+    amount: number;
+    timestamp: number;
+    user: string;
+}
+
+type DecrementedAction = {
+    type: 'decrement';
+    amount: number;
+    timestamp: number;
+    user: string;
+}
+
+type Action = IncrementAction | DecrementedAction;
+
+function reducer(state: number, action: Action) {
+    switch(action.type) {
+        case 'increment':
+            return state + action.amount;
+        case 'decrement':
+            return state - action.amount;
+        default:
+            const unexpectedAction:never = action;
+            throw new Error(`Unexpected error: ${unexpectedAction}`);
+    }
+}
+
+const newState = reducer(12, {
+    user: 'John',
+    amount: 20,
+    timestamp: Date.now(),
+    type: 'increment'
+});
+
 // import newStudentName, { sayHello, personName, type Student } from "./actions";
 // import { example } from "./example";
 
