@@ -415,41 +415,40 @@
 
 
 // type guards - discriminated unions
+// type IncrementAction = {
+//     type: 'increment';
+//     amount: number;
+//     timestamp: number;
+//     user: string;
+// }
 
-type IncrementAction = {
-    type: 'increment';
-    amount: number;
-    timestamp: number;
-    user: string;
-}
+// type DecrementedAction = {
+//     type: 'decrement';
+//     amount: number;
+//     timestamp: number;
+//     user: string;
+// }
 
-type DecrementedAction = {
-    type: 'decrement';
-    amount: number;
-    timestamp: number;
-    user: string;
-}
+// type Action = IncrementAction | DecrementedAction;
 
-type Action = IncrementAction | DecrementedAction;
+// function reducer(state: number, action: Action) {
+//     switch(action.type) {
+//         case 'increment':
+//             return state + action.amount;
+//         case 'decrement':
+//             return state - action.amount;
+//         default:
+//             const unexpectedAction:never = action;
+//             throw new Error(`Unexpected error: ${unexpectedAction}`);
+//     }
+// }
 
-function reducer(state: number, action: Action) {
-    switch(action.type) {
-        case 'increment':
-            return state + action.amount;
-        case 'decrement':
-            return state - action.amount;
-        default:
-            const unexpectedAction:never = action;
-            throw new Error(`Unexpected error: ${unexpectedAction}`);
-    }
-}
-
-const newState = reducer(12, {
-    user: 'John',
-    amount: 20,
-    timestamp: Date.now(),
-    type: 'increment'
-});
+// const newState = reducer(12, {
+//     user: 'John',
+//     amount: 20,
+//     timestamp: Date.now(),
+//     type: 'increment'
+// });
 
 // import newStudentName, { sayHello, personName, type Student } from "./actions";
 // import { example } from "./example";
@@ -692,124 +691,170 @@ const newState = reducer(12, {
 
 
 // fetch data
-import { z } from 'zod';
+// import { z } from 'zod';
 
-const url = 'https://www.course-api.com/react-tours-project'
+// const url = 'https://www.course-api.com/react-tours-project'
 
-// checked at runtime
-const tourSchema = z.object({
-    id: z.string(),
-    name: z.string(),
-    info: z.string(),
-    image: z.string(),
-    price: z.string()
-})
+// // checked at runtime
+// const tourSchema = z.object({
+//     id: z.string(),
+//     name: z.string(),
+//     info: z.string(),
+//     image: z.string(),
+//     price: z.string()
+// })
 
-type Tour = z.infer<typeof tourSchema>;
+// type Tour = z.infer<typeof tourSchema>;
 
-// type Tour = {
-//     id: number;
-//     name: string;
-//     info: string;
-//     image: string;
-//     price: number;
+// // type Tour = {
+// //     id: number;
+// //     name: string;
+// //     info: string;
+// //     image: string;
+// //     price: number;
+// // }
+
+// async function fetchData(url:string):Promise<Tour[]> {
+//     try {
+//         const response = await fetch(url);
+
+//         if(!response.ok) {
+//             throw new Error(`HTTP error! status: ${response.status}`);
+//         }
+
+//         const rawData:Tour[] = await response.json();
+
+//         const result = tourSchema.array().safeParse(rawData);
+//         console.log(result);
+
+//         if (!result.success) {
+//             throw new Error(`Invalid data: ${result.error}`);
+//         }
+
+//         return result.data;
+
+//     } catch (error) {
+//         const errorMsg = error instanceof Error ? error.message : 'An error occurred';
+//         console.log(errorMsg);
+//         return [];
+//     }
 // }
 
-async function fetchData(url:string):Promise<Tour[]> {
-    try {
-        const response = await fetch(url);
+// const tours = await fetchData(url);
+// tours.map(
+//     (tour) => {
+//         console.log(tour.name);
+//     }
+// )
 
-        if(!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
+// // Classes
+// class Book {
+//     // readonly modifier
+//     readonly title: string;
+//     author: string;
 
-        const rawData:Tour[] = await response.json();
+//     // default property
+//     // checkedOut: boolean = false; <--- valid option
+//     checkedOut = false; // <--- also works
 
-        const result = tourSchema.array().safeParse(rawData);
-        console.log(result);
+//     constructor(title:string, author:string) {
+//         this.title = title;
+//         this.author = author;
+//     }
+// }
 
-        if (!result.success) {
-            throw new Error(`Invalid data: ${result.error}`);
-        }
+// const deepWork = new Book('Deep Work', 'Cal Newport');
+// console.log(deepWork.checkedOut); // false
+// deepWork.title = "something else"; // error as title is readonly  
+// console.log(deepWork.title); // Deep Work
+// console.log(deepWork); // { title: 'Deep Work', author: 'Cal Newport' }
 
-        return result.data;
 
-    } catch (error) {
-        const errorMsg = error instanceof Error ? error.message : 'An error occurred';
-        console.log(errorMsg);
-        return [];
+// // public and private modifiers
+// class Books {
+//     public readonly title: string;
+//     public author: string;
+//     checkedOut: boolean = false;
+
+//     constructor(title:string, author:string) {
+//         this.title = title;
+//         this.author = author;
+//     }
+
+//     public checkout() {
+//         this.checkedOut = this.toggleCheckedOut();
+//     }
+
+//     public isCheckedOut() {
+//         return this.checkedOut;
+//     }
+
+//     public toggleCheckedOut() {
+//         return !this.checkedOut;
+//     }
+// }
+
+// const someBook = new Books('Some Book', 'Some Author');
+// someBook.checkout();
+// someBook.checkout();
+// console.log(someBook.isCheckedOut()); // false
+
+
+// // constructor shortcut
+// class Library {
+//     private checkedOut: boolean = false;
+//     constructor(readonly title:string, public author:string, private someValue:number) {
+//     }
+//     getSomeValue() {
+//         return this.someValue;
+//     }
+// }
+
+// const libraryBook = new Library('Some Book', 'Some Author', 200);
+// console.log(libraryBook.getSomeValue()); // 200
+
+
+// getters and setters
+class eBook {
+    private checkedOut: boolean = false;
+    constructor(readonly title:string, public author:string) {}
+
+    get info() {
+        return `${this.title} by ${this.author}`;
     }
-}
-
-const tours = await fetchData(url);
-tours.map(
-    (tour) => {
-        console.log(tour.name);
+    private set checkOut(checkedOut:boolean) {
+        this.checkedOut = checkedOut;
     }
-)
-
-// Classes
-class Book {
-    // readonly modifier
-    readonly title: string;
-    author: string;
-
-    // default property
-    // checkedOut: boolean = false; <--- valid option
-    checkedOut = false; // <--- also works
-
-    constructor(title:string, author:string) {
-        this.title = title;
-        this.author = author;
-    }
-}
-
-const deepWork = new Book('Deep Work', 'Cal Newport');
-console.log(deepWork.checkedOut); // false
-deepWork.title = "something else"; // error as title is readonly  
-console.log(deepWork.title); // Deep Work
-console.log(deepWork); // { title: 'Deep Work', author: 'Cal Newport' }
-
-
-// public and private modifiers
-class Books {
-    public readonly title: string;
-    public author: string;
-    checkedOut: boolean = false;
-
-    constructor(title:string, author:string) {
-        this.title = title;
-        this.author = author;
-    }
-
-    public checkout() {
-        this.checkedOut = this.toggleCheckedOut();
-    }
-
-    public isCheckedOut() {
+    get checkOut() {
         return this.checkedOut;
     }
-
-    public toggleCheckedOut() {
-        return !this.checkedOut;
+    public get someInfo() {
+        this.checkOut = true;
+        return `${this.title} by ${this.author}`;
     }
 }
 
-const someBook = new Books('Some Book', 'Some Author');
-someBook.checkout();
-someBook.checkout();
-console.log(someBook.isCheckedOut()); // false
+const newEBook = new eBook('New Book', 'New Author');
+console.log(newEBook.info); // New Book by New Author
+newEBook.checkOut = false; 
+console.log(newEBook);
+console.log(newEBook.someInfo); // New Book by New Author
+console.log(newEBook.checkOut); // true
 
 
-// constructor shortcut
-class Library {
-    private checkedOut: boolean = false;
-    constructor(readonly title:string, public author:string, private someValue:number) {
-    }
-    getSomeValue() {
-        return this.someValue;
+// classes - implement interface
+interface IPerson {
+    name: string;
+    age: number;
+    greet(): void;
+}
+
+class Person implements IPerson {
+    constructor(public name:string, public age:number) {}
+    greet(): void {
+        console.log(`Hello, my name is ${this.name} and I'm ${this.age} years old.`);
     }
 }
 
-const libraryBook = new Library('Some Book', 'Some Author', 200);
-console.log(libraryBook.getSomeValue()); // 200
+const newPerson = new Person('John', 30);
+newPerson.greet(); // Hello, my name is John and I'm 30 years old.
